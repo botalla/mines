@@ -4,7 +4,7 @@
 # site: https://github.com/kitao/pyxel
 # license: MIT
 # version: 1.0
-
+dsqdsqdsq
 import pyxel
 
 import uuid
