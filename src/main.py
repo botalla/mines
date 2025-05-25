@@ -6,10 +6,7 @@
 # version: 1.0
 
 import pyxel
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, JSON, Boolean
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import desc
+
 import uuid
 from datetime import datetime
 import json
@@ -25,7 +22,10 @@ async def setup_sqlalchemy():
             import micropip
             await micropip.install("sqlalchemy")
         # After installing (or if not in Pyodide), import sqlalchemy
-        import sqlalchemy
+        from sqlalchemy import create_engine, Column, Integer, String, DateTime, JSON, Boolean
+        from sqlalchemy.ext.declarative import declarative_base
+        from sqlalchemy.orm import sessionmaker
+        from sqlalchemy import desc
         print("SQLAlchemy version:", sqlalchemy.__version__)
     except Exception as e:
         print("Error setting up SQLAlchemy:", e)
