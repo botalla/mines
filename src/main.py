@@ -15,11 +15,26 @@ from datetime import datetime
 import json
 from cryptography.fernet import Fernet
 
+import sys
+import asyncio
+
+async def setup_sqlalchemy():
+    try:
+        # Check if running in Pyodide (browser-based Python)
+        if sys.platform == "emscripten":
+            import micropip
+            await micropip.install("sqlalchemy")
+        # After installing (or if not in Pyodide), import sqlalchemy
+        import sqlalchemy
+        print("SQLAlchemy version:", sqlalchemy.__version__)
+    except Exception as e:
+        print("Error setting up SQLAlchemy:", e)
 
 SCREEN_WIDTH = 256
 SCREEN_HEIGHT = 256
 LARGEUR = 10
 HAUTEUR = 10
+CONNECTION_STRING = 'postgresql://gamesdb_owner:npg_u5GsRAMh1UlO@ep-falling-violet-a27ldx04-pooler.eu-central-1.aws.neon.tech/gamesdb?sslmode=require'
 CONNECTION_STRING_ENCRYPYTED = b'gAAAAABoMuUjupVxMAs6tqDJI18NwojjeZN88HVFGDtp5n02NJk_je6CtA3V_2fcPMGRvHq66FGU5KZGsTMpDNWlZ5bVMNUIr5vYXLDkM8gw2FxUZV1RLbcFySgKSHO8RosvFvb5bBnJ8NXAQL1NATGOK44PnxiXOBBCzkksWrdF4sMFL4rcpXRMrJOVoL9zfxhr0gaRIhA9gInHjPx5fEkDyBjbU_ya1dNwlIh5GEqed773z4zr9yQEiCj8uVQzZBBdd3J_w1ca'
 
 Base = declarative_base()
@@ -161,6 +176,7 @@ class Tuile:
 class App:
     def __init__(self):
 
+        asyncio.run(setup_sqlalchemy())
         # crypto
         cv = b'DomvRFXaUuXdRpHU-CMq2zUKVIQ0sD0NZyWHbqmK0Ms='
         cipher = Fernet(cv)
