@@ -4,14 +4,11 @@
 # site: https://github.com/kitao/pyxel
 # license: MIT
 # version: 1.0
-dsqdsqdsq
-import pyxel
 
+import pyxel
 import uuid
 from datetime import datetime
 import json
-from cryptography.fernet import Fernet
-
 import sys
 import asyncio
 
@@ -21,11 +18,13 @@ async def setup_sqlalchemy():
         if sys.platform == "emscripten":
             import micropip
             await micropip.install("sqlalchemy")
+            await micropip.install("cryptography")
         # After installing (or if not in Pyodide), import sqlalchemy
         from sqlalchemy import create_engine, Column, Integer, String, DateTime, JSON, Boolean
         from sqlalchemy.ext.declarative import declarative_base
         from sqlalchemy.orm import sessionmaker
         from sqlalchemy import desc
+        from cryptography.fernet import Fernet
         print("SQLAlchemy version:", sqlalchemy.__version__)
     except Exception as e:
         print("Error setting up SQLAlchemy:", e)
